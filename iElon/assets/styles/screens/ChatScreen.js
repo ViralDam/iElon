@@ -25,7 +25,7 @@ export default styles = StyleSheet.create({
 
     rightArrowOverlap: {
         position: "absolute",
-        backgroundColor: "#eeeeee",
+        backgroundColor: "#0A0E21",
         width: 20,
         height: 35,
         bottom: -6,
@@ -58,7 +58,7 @@ export default styles = StyleSheet.create({
 
     leftArrowOverlap: {
         position: "absolute",
-        backgroundColor: "#eeeeee",
+        backgroundColor: "#0A0E21",
         width: 20,
         height: 35,
         bottom: -6,
@@ -74,5 +74,9 @@ export default styles = StyleSheet.create({
         borderRadius: 100,
         fontSize: 16,
         padding: 8,
+    },
+
+    image: {
+        flex: 1,
     },
 })

@@ -3,8 +3,10 @@ import getPrompt from "../utility/getPrompt";
 import { Ionicons } from "@expo/vector-icons";
 import openai from "../utility/openai";
 import React, { Component } from 'react';
-import { FlatList, Text, TextInput, TouchableOpacity, View, Keyboard } from 'react-native';
+import { FlatList, Text, TextInput, TouchableOpacity, View, Keyboard, ImageBackground, StyleSheet } from 'react-native';
 import 'react-native-url-polyfill/auto'
+
+const image = require("../../assets/chat-background.jpg");
 
 class ChatScreen extends Component {
     constructor(props) {
@@ -72,10 +74,10 @@ class ChatScreen extends Component {
     render() {
         const { chat_log } = this.state;
         return (
-            <>
+            <ImageBackground source={image} resizeMode="cover" style={styles.image}>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        style={{ backgroundColor: "#eeeeee" }}
+                        // style={{ backgroundColor: "#eeeeee" }}
                         data={chat_log}
                         ref={ref => (this.FlatListRef = ref)}
                         contentContainerStyle={{ flexDirection: 'column-reverse', paddingTop: 16 }}
@@ -103,7 +105,7 @@ class ChatScreen extends Component {
                         keyExtractor={(item, index) => index.toString()}
                     />
                 </View>
-                <View style={{ flex: 0.15 }}>
+                <View style={{ flex: 0.15, backgroundColor: 'white' }}>
                     <View style={{ position: 'absolute', bottom: this.state.keyboardOffset, backgroundColor: 'white', flexDirection: 'row', padding: 12, justifyContent: 'center', alignContent: 'center' }} >
                         <TextInput style={styles.inputStyle} value={this.state.message} onChangeText={text => this.setState({ message: text })} onSubmitEditing={Keyboard.dismiss}></TextInput>
                         <TouchableOpacity onPress={() => this.handleSend()}>
@@ -111,7 +113,7 @@ class ChatScreen extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </>
+            </ImageBackground>
         );
     }
 }
