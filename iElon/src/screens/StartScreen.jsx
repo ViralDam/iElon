@@ -1,17 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View, ImageBackground } from "react-native";
+import BackgroundAnimation from "../components/BackgroundAnimation";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
     image: {
-      flex: 1,
+        flex: 1,
     },
     startButtonText: {
         textAlign: 'center',
         fontFamily: 'TGL 0-17',
         fontSize: 20,
+        color: 'white'
     },
     titleView: {
         flex: 0.7,
@@ -32,9 +34,7 @@ const styles = StyleSheet.create({
         paddingTop: 12,
     },
     startButton: {
-        borderColor: 'black',
-        borderStyle: 'solid',
-        borderWidth: 1
+        backgroundColor: '#00000020',
     },
 });
 
@@ -45,17 +45,18 @@ const StartScreen = ({ handleStartClick }) => {
         <>
             <StatusBar hidden={true} />
             <View style={styles.container}>
-                <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-                    <View style={{backgroundColor: '#00000011', flex: 1}}>
-                    <View style={styles.titleView}>
-                    <Text style={styles.titleText}>iElon</Text>
-                    <Text style={styles.subTitleText}>Since. 2070</Text>
+                <BackgroundAnimation />
+                    {/* <ImageBackground source={image} resizeMode="cover" style={styles.image}> */}
+                    <View style={{ backgroundColor: '#00000011', flex: 1 }}>
+                        <View style={styles.titleView}>
+                            <Text style={styles.titleText}>iElon</Text>
+                            <Text style={styles.subTitleText}>Since. 2070</Text>
+                        </View>
+                        <TouchableOpacity style={styles.startButton} onPress={() => handleStartClick()}>
+                            <Text style={styles.startButtonText}>Start</Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.startButton} onPress={() => handleStartClick()}>
-                        <Text style={styles.startButtonText}>Start</Text>
-                    </TouchableOpacity>
-                    </View>
-                </ImageBackground>
+                {/* </ImageBackground> */}
             </View>
         </>
     );
