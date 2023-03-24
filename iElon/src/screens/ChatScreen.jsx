@@ -1,5 +1,5 @@
 import styles from "../../assets/styles/screens/ChatScreen";
-import getPrompt from "../utility/getPrompt";
+import getPrompt, { getEndingPrompt } from "../utility/getPrompt";
 import { Ionicons } from "@expo/vector-icons";
 import openai from "../utility/openai";
 import React, { Component } from 'react';
@@ -28,16 +28,41 @@ class ChatScreen extends Component {
 
     state = {
         chat_log: [],
+        user_message_count: 0,
         message: '',
         keyboardOffset: 50,
+        isEnded: false,
+    }
+
+    triggerEnding = (chat_log_new) => {
+        const { isEnded, chat_log } = this.state;
+        console.log(isEnded);
+        if(isEnded){
+            this.setState({ chat_log: [...chat_log, { 'text': "...", 'isUser': false }] })
+            return;
+        }
+        openai.createCompletion({
+            "model": "text-davinci-003",
+            "prompt": getEndingPrompt(chat_log_new),
+            "max_tokens": 100,
+            "temperature": 0,
+            "top_p": 1,
+            "n": 1,
+            "stream": false,
+          }).then(res => this.setState({ chat_log: [...chat_log_new, { 'text': res.data.choices[0].text.trim(), 'isUser': false }], isEnded: true })).catch(err=> console.error(err));
     }
 
     handleSend = () => {
-        const { message, chat_log } = this.state;
+        const { message, chat_log, user_message_count } = this.state;
         if (message) {
             const new_chat_log = [...chat_log, { 'text': message, 'isUser': true }]
-            this.setState({ message: '', chat_log: new_chat_log });
+            this.setState({ message: '', chat_log: new_chat_log, user_message_count: user_message_count+1});
             Keyboard.dismiss();
+            if(user_message_count >= 10)
+            {
+                this.triggerEnding(new_chat_log);
+                return;
+            }
             this.getResponse(new_chat_log);
         }
     }

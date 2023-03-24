@@ -19,6 +19,10 @@ const _intro = `I want you to act as an engaging, imaginative and captivating te
     
     Human: Hello\n
     `
+const _endingPrompt = `Based on the conversations above, come up with an ending to the story. It will also include a unique achievement for the player based on the story.
+    [Ending]
+    `
+
 export default getPrompt = (chat_log) => {
     let story = '';
     chat_log.forEach(chat => {
@@ -31,4 +35,17 @@ export default getPrompt = (chat_log) => {
     });
     story += 'AI: '
     return _intro + story;
+}
+
+export const getEndingPrompt = (chat_log) => {
+    let story = '';
+    chat_log.forEach(chat => {
+        if (chat.isUser) {
+            story += 'Human: ' + chat.text + '\n';
+        }
+        else {
+            story += 'AI: ' + chat.text + '\n';
+        }
+    });
+    return _intro + story + _endingPrompt;
 }
